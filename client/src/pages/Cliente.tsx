@@ -90,7 +90,7 @@ export default function Cliente() {
                   </div>
                   <Button className="cyber-button h-9 md:h-11 md:h-12 min-w-28 md:min-w-36 text-xs md:text-sm" onClick={handleBuscarIp} disabled={buscarIpMutation.isPending}>
                     {buscarIpMutation.isPending ? <Loader2 className="mr-1.5 md:mr-2 h-3 w-3 md:h-4 md:w-4 animate-spin" /> : <Radar className="mr-1.5 md:mr-2 h-3 w-3 md:h-4 md:w-4" />}
-                    Buscar IP
+                    Ative Sua Chave 🔑
                   </Button>
                 </div>
               </div>
