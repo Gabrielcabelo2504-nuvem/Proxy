@@ -162,7 +162,9 @@ export async function updateKeyIp(apiKey: ApiKey, newIp: string, actorIp: string
 
 export async function createReseller(name: string, password: string, createdBy: number) {
   const db = requireDbInstance(await getDb());
-  await db.insert(resellers).values({ name, password, createdBy });
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + 30); // Add 30 days
+  await db.insert(resellers).values({ name, password, createdBy, expiresAt });
   const rows = await db.select().from(resellers).where(eq(resellers.name, name)).limit(1);
   return rows[0];
 }

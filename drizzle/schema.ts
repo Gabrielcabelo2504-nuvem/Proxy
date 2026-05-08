@@ -41,6 +41,7 @@ export const resellers = mysqlTable("resellers", {
   name: varchar("name", { length: 160 }).notNull().unique(),
   password: varchar("password", { length: 255 }).notNull(),
   status: mysqlEnum("status", ["active", "inactive"]).default("active").notNull(),
+  expiresAt: timestamp("expiresAt"),
   createdBy: int("createdBy").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

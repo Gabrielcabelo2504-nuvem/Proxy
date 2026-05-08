@@ -58,3 +58,7 @@
 - [x] Adicionar ações funcionais na tabela de keys: Buscar, Deletar, Editar status
 - [x] Implementar menu dropdown ou contexto para mais opções na tabela
 - [x] Validar todas as ações funcionais e testar em mobile
+
+- [x] Adicionar campo de validade (expiresAt) à tabela de revendedores
+- [x] Implementar lógica de validade de 30 dias ao criar revendedor
+- [x] Validar que todos os revendedores adicionados terão validade de 30 dias
