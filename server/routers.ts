@@ -12,10 +12,16 @@ import {
   listApiKeys,
   touchKeyAccess,
   updateKeyIp,
+  createReseller,
+  listResellers,
+  getResellerById,
+  listApiKeysByReseller,
+  getResellerByName,
 } from "./db";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { adminProcedure, publicProcedure, router } from "./_core/trpc";
+import { hashPassword, verifyPassword } from "./resellerAuth";
 
 const keyCodeGenerator = customAlphabet("ABCDEFGHJKLMNPQRSTUVWXYZ23456789", 28);
 
@@ -67,7 +73,6 @@ function getRequestIp(ctx: { req?: { headers?: Record<string, unknown>; socket?:
 }
 
 export const appRouter = router({
-  // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
   system: systemRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
@@ -166,6 +171,60 @@ export const appRouter = router({
           previousIp: key.authorizedIp,
           lastAccessAt: updated?.lastAccessAt ?? new Date(),
         } as const;
+      }),
+  }),
+
+  resellers: router({
+    list: adminProcedure.query(async () => {
+      return listResellers();
+    }),
+
+    create: adminProcedure
+      .input(
+        z.object({
+          name: z.string().min(2).max(160),
+          password: z.string().min(4).max(255),
+        }),
+      )
+      .mutation(async ({ input, ctx }) => {
+        const existing = await getResellerByName(input.name);
+        if (existing) {
+          throw new TRPCError({ code: "CONFLICT", message: "Este nome já está cadastrado." });
+        }
+
+        const hashedPassword = hashPassword(input.password);
+        const created = await createReseller(input.name, hashedPassword, ctx.user.id);
+        return { id: created?.id, name: created?.name };
+      }),
+
+    login: publicProcedure
+      .input(
+        z.object({
+          name: z.string().min(2).max(160),
+          password: z.string().min(4),
+        }),
+      )
+      .mutation(async ({ input }) => {
+        const reseller = await getResellerByName(input.name);
+        if (!reseller) {
+          throw new TRPCError({ code: "UNAUTHORIZED", message: "Nome ou senha incorretos." });
+        }
+
+        if (reseller.status !== "active") {
+          throw new TRPCError({ code: "FORBIDDEN", message: "Revendedor inativo." });
+        }
+
+        if (!verifyPassword(input.password, reseller.password)) {
+          throw new TRPCError({ code: "UNAUTHORIZED", message: "Nome ou senha incorretos." });
+        }
+
+        return { id: reseller.id, name: reseller.name };
+      }),
+
+    getKeys: publicProcedure
+      .input(z.object({ resellerId: z.number().int().positive() }))
+      .query(async ({ input }) => {
+        return listApiKeysByReseller(input.resellerId);
       }),
   }),
 });

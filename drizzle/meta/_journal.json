@@ -15,6 +15,13 @@
       "when": 1778208372011,
       "tag": "0001_easy_post",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1778213659375,
+      "tag": "0002_premium_praxagora",
+      "breakpoints": true
     }
   ]
 }

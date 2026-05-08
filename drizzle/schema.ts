@@ -31,6 +31,17 @@ export const apiKeys = mysqlTable("api_keys", {
   expiresAt: timestamp("expiresAt"),
   lastAccessAt: timestamp("lastAccessAt"),
   createdBy: int("createdBy"),
+  resellerId: int("resellerId"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const resellers = mysqlTable("resellers", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 160 }).notNull().unique(),
+  password: varchar("password", { length: 255 }).notNull(),
+  status: mysqlEnum("status", ["active", "inactive"]).default("active").notNull(),
+  createdBy: int("createdBy").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -51,3 +62,5 @@ export type ApiKey = typeof apiKeys.$inferSelect;
 export type InsertApiKey = typeof apiKeys.$inferInsert;
 export type KeyActivityLog = typeof keyActivityLogs.$inferSelect;
 export type InsertKeyActivityLog = typeof keyActivityLogs.$inferInsert;
+export type Reseller = typeof resellers.$inferSelect;
+export type InsertReseller = typeof resellers.$inferInsert;

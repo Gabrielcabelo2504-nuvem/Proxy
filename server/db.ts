@@ -1,6 +1,6 @@
 import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { ApiKey, apiKeys, InsertApiKey, InsertKeyActivityLog, InsertUser, keyActivityLogs, users } from "../drizzle/schema";
+import { ApiKey, apiKeys, InsertApiKey, InsertKeyActivityLog, InsertUser, keyActivityLogs, users, resellers, Reseller, InsertReseller } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -158,4 +158,33 @@ export async function updateKeyIp(apiKey: ApiKey, newIp: string, actorIp: string
     .where(eq(apiKeys.id, apiKey.id));
 
   return getApiKeyById(apiKey.id);
+}
+
+export async function createReseller(name: string, password: string, createdBy: number) {
+  const db = requireDbInstance(await getDb());
+  await db.insert(resellers).values({ name, password, createdBy });
+  const rows = await db.select().from(resellers).where(eq(resellers.name, name)).limit(1);
+  return rows[0];
+}
+
+export async function listResellers() {
+  const db = requireDbInstance(await getDb());
+  return db.select().from(resellers).orderBy(desc(resellers.createdAt));
+}
+
+export async function getResellerById(id: number) {
+  const db = requireDbInstance(await getDb());
+  const rows = await db.select().from(resellers).where(eq(resellers.id, id)).limit(1);
+  return rows[0];
+}
+
+export async function getResellerByName(name: string) {
+  const db = requireDbInstance(await getDb());
+  const rows = await db.select().from(resellers).where(eq(resellers.name, name)).limit(1);
+  return rows[0];
+}
+
+export async function listApiKeysByReseller(resellerId: number) {
+  const db = requireDbInstance(await getDb());
+  return db.select().from(apiKeys).where(eq(apiKeys.resellerId, resellerId)).orderBy(desc(apiKeys.createdAt));
 }
