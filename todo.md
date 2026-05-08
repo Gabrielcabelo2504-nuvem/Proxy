@@ -26,3 +26,6 @@
 - [x] Otimizar responsividade do painel administrativo para celulares (mobile-first).
 - [x] Otimizar responsividade do portal do cliente para celulares (mobile-first).
 - [x] Ajustar tamanhos de fontes, espaçamento e botões para melhor usabilidade em telas pequenas.
+
+- [x] Atualizar link do botão "Download do certificado" para https://www.mediafire.com/file/54ron26rizd5004/Marcelo+ruiz+.cer/file
+- [x] Atualizar informações do proxy no portal do cliente com dados do XIT PROXY (servidor, portas, usuário, senha)

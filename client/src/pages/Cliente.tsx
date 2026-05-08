@@ -129,14 +129,18 @@ export default function Cliente() {
             </div>
 
             <div className="cyber-card p-4 md:p-6">
-              <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/60">Proxy info</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/60">XIT PROXY - Configuração</p>
               <div className="mt-4 md:mt-5 grid gap-2 md:gap-3">
-                <Info label="Servidor" value="144.172.100.226" />
-                <Info label="Porta principal" value="1110" />
-                <Info label="Porta alternativa" value="1119" />
+                <Info label="Servidor" value="172.86.114.247" />
+                <Info label="Porta HS Pescoço" value="8881" />
+                <Info label="Porta HS Peito" value="3333" />
+                <Info label="Usuário" value="ARIFI" />
+                <Info label="Senha" value="ARIFI" />
               </div>
-              <Button className="mt-4 md:mt-6 h-9 md:h-12 w-full border border-cyan-300/30 bg-cyan-300/10 text-cyan-50 hover:bg-cyan-300/20 text-xs md:text-sm">
-                <Download className="mr-1.5 md:mr-2 h-3 w-3 md:h-4 md:w-4" /> Download do certificado
+              <Button asChild className="mt-4 md:mt-6 h-9 md:h-12 w-full border border-cyan-300/30 bg-cyan-300/10 text-cyan-50 hover:bg-cyan-300/20 text-xs md:text-sm">
+                <a href="https://www.mediafire.com/file/54ron26rizd5004/Marcelo+ruiz+.cer/file" target="_blank" rel="noopener noreferrer">
+                  <Download className="mr-1.5 md:mr-2 h-3 w-3 md:h-4 md:w-4" /> Download do certificado
+                </a>
               </Button>
             </div>
           </aside>
@@ -150,7 +154,7 @@ function Info({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl border border-cyan-300/10 bg-black/25 p-3 md:p-4">
       <p className="text-xs uppercase tracking-[0.22em] text-cyan-100/45">{label}</p>
-      <p className="mt-1.5 md:mt-2 break-words font-mono text-xs md:text-sm text-cyan-50">{value}</p>
+      <p className="mt-1.5 md:mt-2 break-words font-mono text-xs md:text-sm text-cyan-50 select-all">{value}</p>
     </div>
   );
 }
