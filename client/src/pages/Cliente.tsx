@@ -82,11 +82,11 @@ export default function Cliente() {
 
             <div className="space-y-4 md:space-y-6">
               <div>
-                <label className="cyber-label text-xs md:text-sm">Sua key de acesso</label>
+                <label className="cyber-label text-xs md:text-sm">Ative Sua Chave 🔑</label>
                 <div className="flex flex-col gap-2 md:gap-3 sm:flex-row">
                   <div className="relative flex-1">
                     <KeyRound className="pointer-events-none absolute left-3 md:left-4 top-1/2 h-3 w-3 md:h-4 md:w-4 -translate-y-1/2 text-cyan-200/50" />
-                    <input className="cyber-input pl-9 md:pl-11 text-sm" value={code} onChange={event => setCode(event.target.value)} placeholder="Cole sua key aqui..." />
+                    <input className="cyber-input pl-9 md:pl-11 text-sm" value={code} onChange={event => setCode(event.target.value)} placeholder="Ative Sua Chave 🔑" />
                   </div>
                   <Button className="cyber-button h-9 md:h-11 md:h-12 min-w-28 md:min-w-36 text-xs md:text-sm" onClick={handleBuscarIp} disabled={buscarIpMutation.isPending}>
                     {buscarIpMutation.isPending ? <Loader2 className="mr-1.5 md:mr-2 h-3 w-3 md:h-4 md:w-4 animate-spin" /> : <Radar className="mr-1.5 md:mr-2 h-3 w-3 md:h-4 md:w-4" />}
