@@ -17,6 +17,9 @@ import {
   ChevronDown,
   Home,
   Settings,
+  Eye,
+  Copy as CopyIcon,
+  Edit2,
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -141,6 +144,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [resellerPassword, setResellerPassword] = useState("");
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [deleteResellerConfirm, setDeleteResellerConfirm] = useState<string | null>(null);
+  const [openMenuId, setOpenMenuId] = useState<number | null>(null);
 
   const keysQuery = trpc.keys.list.useQuery();
   const resellersQuery = trpc.resellers.list.useQuery();
@@ -237,10 +241,15 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     });
   }
 
+  function handleCopyCode(code: string) {
+    navigator.clipboard.writeText(code);
+    toast.success("Código copiado para a área de transferência!");
+  }
+
   const selectedKeyData = selectedCode ? keysQuery.data?.find((k) => k.code === selectedCode) : null;
 
   return (
-    <div className="cyber-screen flex min-h-screen bg-slate-950">
+    <div className="cyber-screen flex min-h-screen bg-slate-950" onClick={() => setOpenMenuId(null)}>
       {/* Sidebar */}
       <aside className={`fixed md:static inset-y-0 left-0 w-64 bg-gradient-to-b from-slate-900 to-slate-950 border-r border-cyan-300/15 backdrop-blur-xl transition-transform z-40 ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}>
         <div className="p-6 border-b border-cyan-300/10 bg-gradient-to-r from-cyan-300/5 to-transparent">
@@ -449,18 +458,49 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                           </td>
                           <td className="px-6 py-4 text-cyan-100/70">{formatDate(key.expiresAt)}</td>
                           <td className="px-6 py-4">
-                            <div className="flex gap-2">
-                              <Button size="sm" variant="outline" className="border-cyan-300/20 bg-cyan-300/5 text-xs h-8 font-semibold" onClick={() => handleCheck(key.code)}>
-                                <Search className="h-3 w-3" />
-                              </Button>
+                            <div className="relative">
                               <Button
                                 size="sm"
                                 variant="outline"
-                                className="border-red-300/20 bg-red-300/5 text-xs h-8 font-semibold"
-                                onClick={() => setDeleteConfirm(key.code)}
+                                className="border-cyan-300/20 bg-cyan-300/5 text-xs h-8 font-semibold hover:bg-cyan-300/15 transition-colors"
+                                onClick={() => setOpenMenuId(openMenuId === key.id ? null : key.id)}
                               >
-                                <Trash2 className="h-3 w-3" />
+                                <MoreVertical className="h-3 w-3" />
                               </Button>
+                              {openMenuId === key.id && (
+                                <div className="absolute right-0 top-full mt-1 bg-slate-900 border border-cyan-300/20 rounded-lg shadow-lg z-50 min-w-max" onClick={(e) => e.stopPropagation()}>
+                                  <button
+                                    className="w-full px-4 py-2 text-left text-xs text-cyan-100 hover:bg-cyan-300/10 flex items-center gap-2 border-b border-cyan-300/10 transition-colors"
+                                    onClick={() => {
+                                      handleCheck(key.code);
+                                      setOpenMenuId(null);
+                                    }}
+                                  >
+                                    <Eye className="h-3 w-3" />
+                                    Ver Detalhes
+                                  </button>
+                                  <button
+                                    className="w-full px-4 py-2 text-left text-xs text-cyan-100 hover:bg-cyan-300/10 flex items-center gap-2 border-b border-cyan-300/10 transition-colors"
+                                    onClick={() => {
+                                      handleCopyCode(key.code);
+                                      setOpenMenuId(null);
+                                    }}
+                                  >
+                                    <CopyIcon className="h-3 w-3" />
+                                    Copiar Código
+                                  </button>
+                                  <button
+                                    className="w-full px-4 py-2 text-left text-xs text-red-300 hover:bg-red-500/10 flex items-center gap-2 transition-colors"
+                                    onClick={() => {
+                                      setDeleteConfirm(key.code);
+                                      setOpenMenuId(null);
+                                    }}
+                                  >
+                                    <Trash2 className="h-3 w-3" />
+                                    Deletar Key
+                                  </button>
+                                </div>
+                              )}
                             </div>
                           </td>
                         </tr>
@@ -538,14 +578,30 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                           <td className="px-6 py-4 text-cyan-100 font-medium">{reseller.name}</td>
                           <td className="px-6 py-4 text-cyan-100/70">{formatDate(reseller.createdAt)}</td>
                           <td className="px-6 py-4">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="border-red-300/20 bg-red-300/5 text-xs h-8 font-semibold"
-                              onClick={() => setDeleteResellerConfirm(reseller.id.toString())}
-                            >
-                              <Trash2 className="h-3 w-3" />
-                            </Button>
+                            <div className="relative">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="border-cyan-300/20 bg-cyan-300/5 text-xs h-8 font-semibold hover:bg-cyan-300/15 transition-colors"
+                                onClick={() => setOpenMenuId(openMenuId === reseller.id ? null : reseller.id)}
+                              >
+                                <MoreVertical className="h-3 w-3" />
+                              </Button>
+                              {openMenuId === reseller.id && (
+                                <div className="absolute right-0 top-full mt-1 bg-slate-900 border border-cyan-300/20 rounded-lg shadow-lg z-50 min-w-max" onClick={(e) => e.stopPropagation()}>
+                                  <button
+                                    className="w-full px-4 py-2 text-left text-xs text-red-300 hover:bg-red-500/10 flex items-center gap-2 transition-colors"
+                                    onClick={() => {
+                                      setDeleteResellerConfirm(reseller.id.toString());
+                                      setOpenMenuId(null);
+                                    }}
+                                  >
+                                    <Trash2 className="h-3 w-3" />
+                                    Deletar Revendedor
+                                  </button>
+                                </div>
+                              )}
+                            </div>
                           </td>
                         </tr>
                       ))}

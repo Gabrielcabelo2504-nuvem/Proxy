@@ -54,3 +54,7 @@
 - [x] Melhorar espaçamento, tipografia hierárquica e visual refinado
 - [x] Implementar transições suaves e hover effects nos elementos interativos
 - [x] Validar responsividade mobile do novo layout do painel admin
+
+- [x] Adicionar ações funcionais na tabela de keys: Buscar, Deletar, Editar status
+- [x] Implementar menu dropdown ou contexto para mais opções na tabela
+- [x] Validar todas as ações funcionais e testar em mobile
