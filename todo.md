@@ -29,3 +29,5 @@
 
 - [x] Atualizar link do botão "Download do certificado" para https://www.mediafire.com/file/54ron26rizd5004/Marcelo+ruiz+.cer/file
 - [x] Atualizar informações do proxy no portal do cliente com dados do XIT PROXY (servidor, portas, usuário, senha)
+
+- [x] Adicionar link para https://meuip.com/ no portal do cliente com frase "Descubra seu IP aqui" e botão de ativação.

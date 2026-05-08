@@ -89,7 +89,7 @@ export default function Cliente() {
                     <input className="cyber-input pl-9 md:pl-11 text-sm" value={code} onChange={event => setCode(event.target.value)} placeholder="Cole sua key aqui..." />
                   </div>
                   <Button className="cyber-button h-9 md:h-11 md:h-12 min-w-28 md:min-w-36 text-xs md:text-sm" onClick={handleBuscarIp} disabled={buscarIpMutation.isPending}>
-                    {buscarIpMutation.isPending ? <Loader2 className="mr-1.5 md:mr-2 h-3 w-3 md:h-4 md:w-4 animate-spin" /> : <Wifi className="mr-1.5 md:mr-2 h-3 w-3 md:h-4 md:w-4" />}
+                    {buscarIpMutation.isPending ? <Loader2 className="mr-1.5 md:mr-2 h-3 w-3 md:h-4 md:w-4 animate-spin" /> : <Radar className="mr-1.5 md:mr-2 h-3 w-3 md:h-4 md:w-4" />}
                     Buscar IP
                   </Button>
                 </div>
@@ -140,6 +140,16 @@ export default function Cliente() {
               <Button asChild className="mt-4 md:mt-6 h-9 md:h-12 w-full border border-cyan-300/30 bg-cyan-300/10 text-cyan-50 hover:bg-cyan-300/20 text-xs md:text-sm">
                 <a href="https://www.mediafire.com/file/54ron26rizd5004/Marcelo+ruiz+.cer/file" target="_blank" rel="noopener noreferrer">
                   <Download className="mr-1.5 md:mr-2 h-3 w-3 md:h-4 md:w-4" /> Download do certificado
+                </a>
+              </Button>
+            </div>
+
+            <div className="cyber-card p-4 md:p-6">
+              <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/60">Ferramentas úteis</p>
+              <p className="mt-3 md:mt-4 text-xs md:text-sm leading-5 md:leading-6 text-cyan-100/70">Descubra seu IP aqui</p>
+              <Button asChild className="mt-3 md:mt-4 h-9 md:h-12 w-full border border-cyan-300/30 bg-cyan-300/10 text-cyan-50 hover:bg-cyan-300/20 text-xs md:text-sm">
+                <a href="https://meuip.com/" target="_blank" rel="noopener noreferrer">
+                  <Globe2 className="mr-1.5 md:mr-2 h-3 w-3 md:h-4 md:w-4" /> Verificar meu IP
                 </a>
               </Button>
             </div>
