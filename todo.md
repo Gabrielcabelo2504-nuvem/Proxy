@@ -31,3 +31,7 @@
 - [x] Atualizar informações do proxy no portal do cliente com dados do XIT PROXY (servidor, portas, usuário, senha)
 
 - [x] Adicionar link para https://meuip.com/ no portal do cliente com frase "Descubra seu IP aqui" e botão de ativação.
+
+- [x] Remover acesso administrativo da página do cliente (/cliente)
+- [x] Garantir que o portal do cliente seja totalmente público e sem autenticação
+- [x] Remover qualquer referência ou link para o painel administrativo na página do cliente

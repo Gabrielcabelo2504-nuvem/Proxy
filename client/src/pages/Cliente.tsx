@@ -69,7 +69,7 @@ export default function Cliente() {
               <h1 className="text-xl md:text-2xl font-black tracking-[0.08em] text-white">PORTAL DO CLIENTE</h1>
             </div>
           </div>
-          <a className="cyber-ghost-button text-xs md:text-sm px-3 md:px-4 py-2 md:py-2.5 h-9 md:h-11" href="/admin">Acesso administrativo</a>
+
         </header>
 
         <section className="grid gap-6 md:gap-8 lg:grid-cols-[1.1fr_0.9fr]">
