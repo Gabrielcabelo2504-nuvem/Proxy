@@ -35,3 +35,9 @@
 - [x] Remover acesso administrativo da página do cliente (/cliente)
 - [x] Garantir que o portal do cliente seja totalmente público e sem autenticação
 - [x] Remover qualquer referência ou link para o painel administrativo na página do cliente
+
+- [ ] Reorganizar painel admin com menu de 3 pontinhos (⋯) contendo opções de gerenciamento
+- [ ] Adicionar dashboard com cards de métricas (keys, revendedores, status)
+- [ ] Implementar ações inline na tabela de keys (Checar, Deletar, Editar status)
+- [ ] Implementar ações inline na tabela de revendedores (Deletar, Ver keys)
+- [ ] Melhorar visual com cards cyber/neon bem organizados e profissional

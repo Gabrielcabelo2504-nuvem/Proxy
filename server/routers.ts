@@ -1,4 +1,5 @@
 import { COOKIE_NAME } from "@shared/const";
+import { deleteResellerById } from "./db";
 import { TRPCError } from "@trpc/server";
 import { customAlphabet } from "nanoid";
 import { isIP } from "node:net";
@@ -226,6 +227,17 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return listApiKeysByReseller(input.resellerId);
       }),
+
+    delete: adminProcedure
+      .input(z.object({ id: z.number().int().positive() }))
+      .mutation(async ({ input }) => {
+        const reseller = await getResellerById(input.id);
+        if (!reseller) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Revendedor não encontrado." });
+        }
+        await deleteResellerById(input.id);
+        return { success: true } as const;
+      })
   }),
 });
 

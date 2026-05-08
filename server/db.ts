@@ -188,3 +188,8 @@ export async function listApiKeysByReseller(resellerId: number) {
   const db = requireDbInstance(await getDb());
   return db.select().from(apiKeys).where(eq(apiKeys.resellerId, resellerId)).orderBy(desc(apiKeys.createdAt));
 }
+
+export async function deleteResellerById(id: number) {
+  const db = requireDbInstance(await getDb());
+  await db.delete(resellers).where(eq(resellers.id, id));
+}
