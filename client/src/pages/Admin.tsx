@@ -1,8 +1,23 @@
-import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { getLoginUrl } from "@/const";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
-import { AlertTriangle, Copy, KeyRound, Loader2, LogOut, MoreVertical, Plus, Search, Shield, Trash2, Users, Eye, EyeOff } from "lucide-react";
+import {
+  AlertTriangle,
+  Copy,
+  KeyRound,
+  Loader2,
+  LogOut,
+  Plus,
+  Search,
+  Shield,
+  Trash2,
+  Users,
+  MoreVertical,
+  ChevronDown,
+  Home,
+  Settings,
+} from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -51,23 +66,42 @@ function AdminLogin() {
 
   return (
     <main className="cyber-screen flex items-center justify-center p-3 md:p-6">
-      <section className="cyber-card w-full max-w-md p-4 md:p-8">
-        <div className="mb-6 md:mb-8 flex flex-col items-center text-center">
-          <div className="mb-3 md:mb-5 grid h-10 w-10 md:h-14 md:w-14 place-items-center rounded-2xl border border-cyan-300/40 bg-cyan-300/10 shadow-[0_0_40px_rgba(34,211,238,0.35)]">
-            <Shield className="h-5 w-5 md:h-7 md:w-7 text-cyan-200" />
+      <section className="cyber-card w-full max-w-md p-6 md:p-8">
+        <div className="mb-8 flex flex-col items-center text-center">
+          <div className="mb-4 grid h-14 w-14 place-items-center rounded-2xl border border-cyan-300/40 bg-cyan-300/10 shadow-[0_0_40px_rgba(34,211,238,0.35)]">
+            <Shield className="h-7 w-7 text-cyan-200" />
           </div>
           <p className="text-xs uppercase tracking-[0.55em] text-cyan-200/80">Auth Proxy</p>
-          <h1 className="mt-2 md:mt-3 text-2xl md:text-4xl font-black tracking-[0.16em] text-white">ADMIN</h1>
-          <p className="mt-2 md:mt-3 text-xs md:text-sm text-cyan-100/60">Autenticação segura via Manus OAuth</p>
+          <h1 className="mt-3 text-4xl font-black tracking-[0.16em] text-white">ADMIN</h1>
+          <p className="mt-2 text-sm text-cyan-100/60">Autenticação segura via Manus OAuth</p>
         </div>
 
-        <div className="space-y-3 md:space-y-4">
-          <label className="block text-xs uppercase tracking-[0.28em] text-cyan-100/70">Usuário</label>
-          <input className="cyber-input text-sm" value={loginUser} onChange={event => setLoginUser(event.target.value)} placeholder="Digite seu usuário" autoComplete="username" />
-          <label className="block text-xs uppercase tracking-[0.28em] text-cyan-100/70">Senha</label>
-          <input className="cyber-input text-sm" value={password} onChange={event => setPassword(event.target.value)} placeholder="Digite sua senha" type="password" autoComplete="current-password" />
-          <p className="rounded-xl border border-cyan-300/10 bg-cyan-300/5 p-2 md:p-3 text-xs leading-5 text-cyan-100/55">Os campos identificam a tentativa de acesso nesta tela. A autenticação obrigatória e definitiva do painel é concluída pelo Manus OAuth.</p>
-          <Button className="cyber-button h-10 md:h-12 w-full text-sm md:text-base" onClick={handleOAuthLogin}>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-xs uppercase tracking-[0.28em] text-cyan-100/70 mb-2">Usuário</label>
+            <input
+              className="cyber-input w-full"
+              value={loginUser}
+              onChange={(e) => setLoginUser(e.target.value)}
+              placeholder="Digite seu usuário"
+              autoComplete="username"
+            />
+          </div>
+          <div>
+            <label className="block text-xs uppercase tracking-[0.28em] text-cyan-100/70 mb-2">Senha</label>
+            <input
+              className="cyber-input w-full"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Digite sua senha"
+              type="password"
+              autoComplete="current-password"
+            />
+          </div>
+          <p className="rounded-xl border border-cyan-300/10 bg-cyan-300/5 p-3 text-xs leading-5 text-cyan-100/55">
+            Os campos identificam a tentativa de acesso nesta tela. A autenticação obrigatória e definitiva do painel é concluída pelo Manus OAuth.
+          </p>
+          <Button className="cyber-button h-12 w-full text-base" onClick={handleOAuthLogin}>
             Acessar painel com Manus OAuth
           </Button>
         </div>
@@ -79,12 +113,14 @@ function AdminLogin() {
 function AccessDenied({ onLogout }: { onLogout: () => void }) {
   return (
     <main className="cyber-screen flex min-h-screen items-center justify-center p-3 md:p-6">
-      <section className="cyber-card max-w-lg p-4 md:p-8 text-center w-full">
-        <AlertTriangle className="mx-auto mb-3 md:mb-5 h-8 w-8 md:h-10 md:w-10 text-red-300" />
-        <h1 className="text-xl md:text-3xl font-black tracking-[0.12em] text-white">ACESSO NEGADO</h1>
-        <p className="mt-3 md:mt-4 text-xs md:text-sm leading-6 md:leading-7 text-cyan-100/65">Sua sessão Manus OAuth está ativa, mas este usuário não possui papel administrativo. Solicite a promoção do usuário para admin antes de operar o gerador de keys.</p>
-        <Button className="mt-4 md:mt-6 border-cyan-300/30 bg-black/20 text-cyan-100 hover:bg-cyan-300/10 h-9 md:h-10 text-xs md:text-sm" variant="outline" onClick={onLogout}>
-          <LogOut className="mr-1.5 md:mr-2 h-3 w-3 md:h-4 md:w-4" /> Sair da sessão
+      <section className="cyber-card max-w-lg w-full p-6 md:p-8 text-center">
+        <AlertTriangle className="mx-auto mb-4 h-10 w-10 text-red-300" />
+        <h1 className="text-3xl font-black tracking-[0.12em] text-white">ACESSO NEGADO</h1>
+        <p className="mt-4 text-sm leading-6 text-cyan-100/65">
+          Sua sessão Manus OAuth está ativa, mas este usuário não possui papel administrativo. Solicite a promoção do usuário para admin antes de operar o gerador de keys.
+        </p>
+        <Button className="mt-6 border-cyan-300/30 bg-black/20 text-cyan-100 hover:bg-cyan-300/10 h-10 text-sm" variant="outline" onClick={onLogout}>
+          <LogOut className="mr-2 h-4 w-4" /> Sair da sessão
         </Button>
       </section>
     </main>
@@ -93,119 +129,76 @@ function AccessDenied({ onLogout }: { onLogout: () => void }) {
 
 function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const utils = trpc.useUtils();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [activeTab, setActiveTab] = useState<"keys" | "resellers">("keys");
   const [clientName, setClientName] = useState("");
   const [expiresAt, setExpiresAt] = useState("");
   const [status, setStatus] = useState<"active" | "inactive">("active");
   const [searchCode, setSearchCode] = useState("");
   const [selectedCode, setSelectedCode] = useState<string | null>(null);
-  const [deleteTarget, setDeleteTarget] = useState<{ id: number; code: string; clientName: string } | null>(null);
-  const [deleteResellerTarget, setDeleteResellerTarget] = useState<{ id: number; name: string } | null>(null);
-  const [filterStatus, setFilterStatus] = useState<"all" | "active" | "inactive">("all");
-  const [filterExpiring, setFilterExpiring] = useState(false);
+  const [showResellerForm, setShowResellerForm] = useState(false);
   const [resellerName, setResellerName] = useState("");
   const [resellerPassword, setResellerPassword] = useState("");
-  const [showResellerForm, setShowResellerForm] = useState(false);
-  const [showResellerList, setShowResellerList] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [deleteResellerConfirm, setDeleteResellerConfirm] = useState<string | null>(null);
 
   const keysQuery = trpc.keys.list.useQuery();
   const resellersQuery = trpc.resellers.list.useQuery();
-  const detailsQuery = trpc.keys.details.useQuery({ code: selectedCode ?? "" }, { enabled: Boolean(selectedCode) });
-
   const createMutation = trpc.keys.create.useMutation({
-    onSuccess: key => {
-      toast.success("Key gerada com sucesso.");
+    onSuccess: () => {
       setClientName("");
       setExpiresAt("");
       setStatus("active");
-      setSelectedCode(key?.code ?? null);
       utils.keys.list.invalidate();
+      toast.success("Key gerada com sucesso!");
     },
-    onError: (error: any) => toast.error(error.message),
+    onError: (error: any) => {
+      toast.error(error.message || "Erro ao gerar key");
+    },
   });
 
-  const deleteMutation = trpc.keys.remove.useMutation({
+  const deleteMutation = trpc.keys.delete.useMutation({
     onSuccess: () => {
-      toast.success("Key excluída com confirmação.");
-      setDeleteTarget(null);
-      setSelectedCode(null);
+      setDeleteConfirm(null);
       utils.keys.list.invalidate();
+      toast.success("Key deletada com sucesso!");
     },
-    onError: (error: any) => toast.error(error.message),
+    onError: (error: any) => {
+      toast.error(error.message || "Erro ao deletar key");
+    },
   });
 
   const createResellerMutation = trpc.resellers.create.useMutation({
     onSuccess: () => {
-      toast.success("Revendedor criado com sucesso!");
       setResellerName("");
       setResellerPassword("");
       setShowResellerForm(false);
       utils.resellers.list.invalidate();
+      toast.success("Revendedor criado com sucesso!");
     },
-    onError: (error: any) => toast.error(error.message),
+    onError: (error: any) => {
+      toast.error(error.message || "Erro ao criar revendedor");
+    },
   });
 
   const deleteResellerMutation = trpc.resellers.delete.useMutation({
     onSuccess: () => {
-      toast.success("Revendedor deletado com sucesso!");
-      setDeleteResellerTarget(null);
+      setDeleteResellerConfirm(null);
       utils.resellers.list.invalidate();
+      toast.success("Revendedor deletado com sucesso!");
     },
-    onError: (error: any) => toast.error(error.message),
+    onError: (error: any) => {
+      toast.error(error.message || "Erro ao deletar revendedor");
+    },
   });
 
-  const activeCount = useMemo(() => keysQuery.data?.filter(key => key.status === "active").length ?? 0, [keysQuery.data]);
-  const inactiveCount = useMemo(() => keysQuery.data?.filter(key => key.status === "inactive").length ?? 0, [keysQuery.data]);
+  const activeCount = useMemo(() => keysQuery.data?.filter((k) => k.status === "active").length ?? 0, [keysQuery.data]);
+  const inactiveCount = useMemo(() => keysQuery.data?.filter((k) => k.status === "inactive").length ?? 0, [keysQuery.data]);
 
   function setExpirationDays(days: number) {
     const date = new Date();
     date.setDate(date.getDate() + days);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    setExpiresAt(`${year}-${month}-${day}`);
-  }
-
-  const filteredKeys = useMemo(() => {
-    if (!keysQuery.data) return [];
-    let result = keysQuery.data;
-    if (filterStatus !== "all") {
-      result = result.filter(key => key.status === filterStatus);
-    }
-    if (filterExpiring) {
-      const now = new Date();
-      const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-      result = result.filter(key => {
-        if (!key.expiresAt) return false;
-        const expiryDate = new Date(key.expiresAt);
-        return expiryDate <= sevenDaysFromNow && expiryDate > now;
-      });
-    }
-    return result;
-  }, [keysQuery.data, filterStatus, filterExpiring]);
-
-  function exportToCSV() {
-    if (!keysQuery.data || keysQuery.data.length === 0) {
-      toast.error("Nenhuma key para exportar.");
-      return;
-    }
-    const headers = ["Cliente", "Key", "IP Autorizado", "Validade", "Status", "Criada em", "Último acesso"];
-    const rows = keysQuery.data.map(key => [
-      key.clientName,
-      key.code,
-      key.authorizedIp || "Não definido",
-      formatDate(key.expiresAt),
-      statusLabel(key.status),
-      formatDate(key.createdAt),
-      formatDate(key.lastAccessAt),
-    ]);
-    const csv = [headers, ...rows].map(row => row.map(cell => `"${cell}"`).join(",")).join("\n");
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = `auth-proxy-keys-${new Date().toISOString().split("T")[0]}.csv`;
-    link.click();
-    toast.success("Arquivo CSV exportado com sucesso.");
+    setExpiresAt(date.toISOString().split("T")[0]);
   }
 
   function handleCreate() {
@@ -213,7 +206,6 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
       toast.error("Informe o nome do cliente.");
       return;
     }
-
     createMutation.mutate({
       clientName,
       status,
@@ -239,360 +231,387 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
       toast.error("Informe a senha do revendedor.");
       return;
     }
-
     createResellerMutation.mutate({
       name: resellerName,
       password: resellerPassword,
     });
   }
 
+  const selectedKeyData = selectedCode ? keysQuery.data?.find((k) => k.code === selectedCode) : null;
+
   return (
-    <main className="cyber-screen min-h-screen p-4 text-cyan-50 md:p-8">
-      <div className="mx-auto max-w-7xl space-y-6">
-        {/* Header com Menu de 3 Pontinhos */}
-        <header className="cyber-card flex flex-col justify-between gap-4 p-4 md:p-6 md:flex-row md:items-center">
-          <div>
-            <p className="text-xs uppercase tracking-[0.55em] text-cyan-200/70">Command center</p>
-            <h1 className="mt-2 text-2xl md:text-4xl font-black tracking-[0.12em] text-white">AUTH PROXY</h1>
-            <p className="mt-1 md:mt-2 text-xs md:text-sm text-cyan-100/60">Gerenciamento seguro de API keys e revendedores</p>
+    <div className="cyber-screen flex min-h-screen bg-slate-950">
+      {/* Sidebar */}
+      <aside className={`fixed md:static inset-y-0 left-0 w-64 bg-gradient-to-b from-slate-900 to-slate-950 border-r border-cyan-300/15 backdrop-blur-xl transition-transform z-40 ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}>
+        <div className="p-6 border-b border-cyan-300/10 bg-gradient-to-r from-cyan-300/5 to-transparent">
+          <div className="flex items-center gap-3">
+            <div className="grid h-11 w-11 place-items-center rounded-xl border border-cyan-300/40 bg-gradient-to-br from-cyan-300/20 to-cyan-300/5 shadow-[0_0_20px_rgba(34,211,238,0.2)]">
+              <Shield className="h-5 w-5 text-cyan-200" />
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-[0.35em] font-semibold text-cyan-300/70">Auth</p>
+              <p className="text-base font-black tracking-[0.12em] text-white">PROXY</p>
+            </div>
           </div>
-          <div className="flex items-center gap-2 md:gap-3">
-            <a className="cyber-ghost-button text-xs md:text-sm h-9 md:h-10 px-3 md:px-4" href="/cliente">Portal do cliente</a>
-            <div className="relative">
-              <Button variant="outline" className="border-cyan-300/30 bg-black/20 text-cyan-100 hover:bg-cyan-300/10 h-9 md:h-10 px-2 md:px-3" onClick={() => setMenuOpen(!menuOpen)}>
-                <MoreVertical className="h-4 w-4" />
-              </Button>
-              {menuOpen && (
-                <div className="absolute right-0 mt-2 w-48 cyber-card p-2 z-50 shadow-lg">
-                  <button onClick={() => { setShowResellerForm(true); setMenuOpen(false); }} className="w-full text-left px-3 py-2 text-sm hover:bg-cyan-300/10 rounded transition-colors flex items-center gap-2">
-                    <Plus className="h-4 w-4" /> Criar revendedor
-                  </button>
-                  <button onClick={() => { setShowResellerList(true); setMenuOpen(false); }} className="w-full text-left px-3 py-2 text-sm hover:bg-cyan-300/10 rounded transition-colors flex items-center gap-2">
-                    <Users className="h-4 w-4" /> Gerenciar revendedores
-                  </button>
-                  <button onClick={exportToCSV} className="w-full text-left px-3 py-2 text-sm hover:bg-cyan-300/10 rounded transition-colors flex items-center gap-2">
-                    <Search className="h-4 w-4" /> Exportar CSV
-                  </button>
-                  <hr className="border-cyan-300/10 my-2" />
-                  <button onClick={onLogout} className="w-full text-left px-3 py-2 text-sm hover:bg-red-300/10 rounded transition-colors flex items-center gap-2 text-red-300">
-                    <LogOut className="h-4 w-4" /> Sair
-                  </button>
+        </div>
+
+        <nav className="p-3 space-y-1.5">
+          <button
+            onClick={() => setActiveTab("keys")}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-sm font-semibold ${
+              activeTab === "keys"
+                ? "bg-gradient-to-r from-cyan-300/20 to-cyan-300/5 text-cyan-100 border border-cyan-300/40 shadow-[0_0_16px_rgba(34,211,238,0.15)]"
+                : "text-cyan-100/50 hover:bg-cyan-300/8 hover:text-cyan-100/70"
+            }`}
+          >
+            <KeyRound className="h-4 w-4 flex-shrink-0" />
+            <span>API Keys</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("resellers")}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-sm font-semibold ${
+              activeTab === "resellers"
+                ? "bg-gradient-to-r from-cyan-300/20 to-cyan-300/5 text-cyan-100 border border-cyan-300/40 shadow-[0_0_16px_rgba(34,211,238,0.15)]"
+                : "text-cyan-100/50 hover:bg-cyan-300/8 hover:text-cyan-100/70"
+            }`}
+          >
+            <Users className="h-4 w-4 flex-shrink-0" />
+            <span>Revendedores</span>
+          </button>
+        </nav>
+
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-cyan-300/10 bg-gradient-to-t from-slate-950 to-transparent">
+          <Button className="w-full bg-gradient-to-r from-red-500/30 to-red-500/10 text-red-200 hover:from-red-500/40 hover:to-red-500/20 border border-red-300/20 h-10 text-sm font-semibold transition-all" onClick={onLogout}>
+            <LogOut className="mr-2 h-4 w-4" />
+            Sair
+          </Button>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 overflow-auto">
+        <div className="p-4 md:p-10 space-y-8">
+          {/* Header */}
+          <div className="flex items-center justify-between pt-2">
+            <div className="space-y-2">
+              <p className="text-xs uppercase tracking-[0.35em] font-semibold text-cyan-300/60">Gerenciamento</p>
+              <h1 className="text-4xl md:text-5xl font-black tracking-[0.06em] text-white">
+                {activeTab === "keys" ? "API Keys" : "Revendedores"}
+              </h1>
+            </div>
+            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="md:hidden p-2.5 hover:bg-cyan-300/15 rounded-lg border border-cyan-300/20 transition-colors">
+              <MoreVertical className="h-5 w-5 text-cyan-300" />
+            </button>
+          </div>
+
+          {/* Metrics */}
+          {activeTab === "keys" && (
+            <div className="grid gap-4 md:grid-cols-4">
+              <MetricCard title="Total de Keys" value={keysQuery.data?.length ?? 0} tone="cyan" />
+              <MetricCard title="Keys Ativas" value={activeCount} tone="green" />
+              <MetricCard title="Keys Inativas" value={inactiveCount} tone="red" />
+              <MetricCard title="Revendedores" value={resellersQuery.data?.length ?? 0} tone="purple" />
+            </div>
+          )}
+
+          {/* Content Sections */}
+          {activeTab === "keys" ? (
+            <div className="space-y-6">
+              {/* Create Key Section */}
+              <section className="cyber-card p-6 md:p-8">
+                <h2 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                  <Plus className="h-5 w-5 text-cyan-300" />
+                  Gerar Nova Key
+                </h2>
+                <div className="grid gap-4 md:grid-cols-4 mb-6">
+                  <div>
+                    <label className="block text-xs uppercase tracking-[0.2em] text-cyan-100/70 mb-2 font-semibold">Cliente</label>
+                    <input
+                      className="cyber-input w-full text-sm"
+                      value={clientName}
+                      onChange={(e) => setClientName(e.target.value)}
+                      placeholder="Nome do cliente"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs uppercase tracking-[0.2em] text-cyan-100/70 mb-2 font-semibold">Validade</label>
+                    <input className="cyber-input w-full text-sm" value={expiresAt} onChange={(e) => setExpiresAt(e.target.value)} type="date" />
+                  </div>
+                  <div>
+                    <label className="block text-xs uppercase tracking-[0.2em] text-cyan-100/70 mb-2 font-semibold">Status</label>
+                    <select className="cyber-input w-full text-sm" value={status} onChange={(e) => setStatus(e.target.value as "active" | "inactive")}>
+                      <option value="active">Ativa</option>
+                      <option value="inactive">Inativa</option>
+                    </select>
+                  </div>
+                  <div className="flex flex-col justify-end">
+                    <Button className="cyber-button h-10 text-sm font-semibold" onClick={handleCreate} disabled={createMutation.isPending}>
+                      {createMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
+                      Gerar
+                    </Button>
+                  </div>
                 </div>
-              )}
-            </div>
-          </div>
-        </header>
-
-        {/* Dashboard com Métricas */}
-        <section className="grid gap-3 md:gap-4 md:grid-cols-4">
-          <Metric title="Total de keys" value={keysQuery.data?.length ?? 0} tone="cyan" />
-          <Metric title="Keys ativas" value={activeCount} tone="green" />
-          <Metric title="Keys inativas" value={inactiveCount} tone="red" />
-          <Metric title="Revendedores" value={resellersQuery.data?.length ?? 0} tone="purple" />
-        </section>
-
-        {/* Seção de Gerar Key */}
-        <section className="cyber-card p-4 md:p-6">
-          <div className="flex items-center gap-2 md:gap-3 mb-4">
-            <KeyRound className="h-5 w-5 text-cyan-200" />
-            <h2 className="text-lg md:text-xl font-bold tracking-[0.08em] text-white">Gerar nova key</h2>
-          </div>
-          <div className="grid gap-3 md:gap-4 md:grid-cols-4">
-            <div>
-              <label className="cyber-label text-xs md:text-sm">Nome do cliente</label>
-              <input className="cyber-input text-sm" value={clientName} onChange={event => setClientName(event.target.value)} placeholder="Ex: Cliente Premium" />
-            </div>
-            <div>
-              <label className="cyber-label text-xs md:text-sm">Validade</label>
-              <input className="cyber-input text-sm" value={expiresAt} onChange={event => setExpiresAt(event.target.value)} type="date" />
-            </div>
-            <div>
-              <label className="cyber-label text-xs md:text-sm">Status</label>
-              <select className="cyber-input text-sm" value={status} onChange={event => setStatus(event.target.value as "active" | "inactive")}>
-                <option value="active">Ativo</option>
-                <option value="inactive">Inativo</option>
-              </select>
-            </div>
-            <div className="flex flex-col justify-end gap-2">
-              <Button className="cyber-button h-10 md:h-11 text-sm" onClick={handleCreate} disabled={createMutation.isPending}>
-                {createMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
-                Gerar
-              </Button>
-            </div>
-          </div>
-          <div className="mt-3 md:mt-4 flex flex-wrap gap-1 md:gap-2">
-            <Button size="sm" variant="outline" className="border-cyan-300/20 bg-cyan-300/5 text-xs text-cyan-100 hover:bg-cyan-300/15 h-8" onClick={() => setExpirationDays(1)}>1d</Button>
-            <Button size="sm" variant="outline" className="border-cyan-300/20 bg-cyan-300/5 text-xs text-cyan-100 hover:bg-cyan-300/15 h-8" onClick={() => setExpirationDays(3)}>3d</Button>
-            <Button size="sm" variant="outline" className="border-cyan-300/20 bg-cyan-300/5 text-xs text-cyan-100 hover:bg-cyan-300/15 h-8" onClick={() => setExpirationDays(7)}>7d</Button>
-            <Button size="sm" variant="outline" className="border-cyan-300/20 bg-cyan-300/5 text-xs text-cyan-100 hover:bg-cyan-300/15 h-8" onClick={() => setExpirationDays(15)}>15d</Button>
-            <Button size="sm" variant="outline" className="border-cyan-300/20 bg-cyan-300/5 text-xs text-cyan-100 hover:bg-cyan-300/15 h-8" onClick={() => setExpirationDays(30)}>30d</Button>
-          </div>
-        </section>
-
-        {/* Seção de Buscar Key */}
-        <section className="cyber-card p-4 md:p-6">
-          <div className="flex items-center gap-2 md:gap-3 mb-4">
-            <Search className="h-5 w-5 text-cyan-200" />
-            <h2 className="text-lg md:text-xl font-bold tracking-[0.08em] text-white">Buscar detalhes da key</h2>
-          </div>
-          <div className="flex gap-2">
-            <input className="cyber-input text-sm flex-1" value={searchCode} onChange={event => setSearchCode(event.target.value)} placeholder="APX-..." />
-            <Button className="cyber-button h-10 md:h-11 px-4" onClick={() => handleCheck()}>
-              <Search className="h-4 w-4" />
-            </Button>
-          </div>
-        </section>
-
-        {/* Tabela de Keys */}
-        <section className="cyber-card overflow-hidden p-0">
-          <div className="border-b border-cyan-300/10 p-3 md:p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-            <h2 className="text-lg md:text-xl font-bold tracking-[0.08em] text-white">Keys cadastradas</h2>
-            <div className="flex gap-2 flex-wrap">
-              <select className="cyber-input text-xs h-9" value={filterStatus} onChange={event => setFilterStatus(event.target.value as "all" | "active" | "inactive")}>
-                <option value="all">Todos</option>
-                <option value="active">Ativas</option>
-                <option value="inactive">Inativas</option>
-              </select>
-              <Button size="sm" variant={filterExpiring ? "default" : "outline"} className={filterExpiring ? "cyber-button text-xs h-9" : "border-cyan-300/20 bg-cyan-300/5 text-xs text-cyan-100 hover:bg-cyan-300/15 h-9"} onClick={() => setFilterExpiring(!filterExpiring)}>
-                Expirando
-              </Button>
-            </div>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[640px] text-left text-xs md:text-sm">
-              <thead className="bg-cyan-300/5 text-xs uppercase tracking-[0.2em] text-cyan-200/70">
-                <tr>
-                  <th className="px-3 md:px-5 py-3">Cliente</th>
-                  <th className="px-3 md:px-5 py-3 hidden sm:table-cell">Key</th>
-                  <th className="px-3 md:px-5 py-3">Validade</th>
-                  <th className="px-3 md:px-5 py-3">Status</th>
-                  <th className="px-3 md:px-5 py-3">Ações</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-cyan-300/10">
-                {filteredKeys.length === 0 ? (
-                  <tr>
-                    <td colSpan={5} className="px-3 md:px-5 py-6 text-center text-cyan-100/50 text-xs md:text-sm">
-                      {keysQuery.data?.length === 0 ? "Nenhuma key cadastrada." : "Nenhuma key corresponde aos filtros."}
-                    </td>
-                  </tr>
-                ) : (
-                  filteredKeys.map(key => {
-                    const isExpired = key.expiresAt && new Date(key.expiresAt).getTime() <= Date.now();
-                    const isExpiring = key.expiresAt && new Date(key.expiresAt).getTime() - Date.now() <= 7 * 24 * 60 * 60 * 1000 && !isExpired;
-                    return (
-                      <tr key={key.id} className="hover:bg-cyan-300/5 transition-colors">
-                        <td className="px-3 md:px-5 py-3 font-mono text-cyan-100 text-xs md:text-sm">{key.clientName}</td>
-                        <td className="px-3 md:px-5 py-3 hidden sm:table-cell font-mono text-cyan-300 text-xs">{key.code}</td>
-                        <td className="px-3 md:px-5 py-3">
-                          <span className={isExpired ? "text-red-300" : isExpiring ? "text-yellow-300" : "text-cyan-100"}>
-                            {formatDate(key.expiresAt)}
-                          </span>
-                        </td>
-                        <td className="px-3 md:px-5 py-3">
-                          <span className={key.status === "active" ? "text-green-300" : "text-red-300"}>{statusLabel(key.status)}</span>
-                        </td>
-                        <td className="px-3 md:px-5 py-3 flex gap-1">
-                          <Button size="sm" variant="outline" className="border-cyan-300/30 bg-cyan-300/10 text-cyan-50 hover:bg-cyan-300/20 h-8 px-2" onClick={() => handleCheck(key.code)} title="Checar detalhes">
-                            <Eye className="h-3 w-3" />
-                          </Button>
-                          <Button size="sm" variant="outline" className="border-red-300/30 bg-red-300/10 text-red-100 hover:bg-red-300/20 h-8 px-2" onClick={() => setDeleteTarget({ id: key.id, code: key.code, clientName: key.clientName })} title="Deletar key">
-                            <Trash2 className="h-3 w-3" />
-                          </Button>
-                        </td>
-                      </tr>
-                    );
-                  })
-                )}
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        {/* Detalhes da Key */}
-        {selectedCode && detailsQuery.data && (
-          <section className="cyber-card p-4 md:p-6">
-            <h2 className="mb-4 text-lg md:text-xl font-bold tracking-[0.08em] text-white">Detalhes da key</h2>
-            <div className="grid gap-4 md:grid-cols-2 mb-6">
-              <div>
-                <p className="text-xs uppercase tracking-[0.28em] text-cyan-100/70">Cliente</p>
-                <p className="mt-1 text-sm text-cyan-50">{detailsQuery.data.key.clientName}</p>
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-[0.28em] text-cyan-100/70">Key</p>
-                <div className="mt-1 flex items-center gap-2">
-                  <p className="font-mono text-xs text-cyan-300">{detailsQuery.data.key.code}</p>
-                  <Button size="sm" variant="ghost" className="h-6 w-6 p-0" onClick={() => {
-                    navigator.clipboard.writeText(detailsQuery.data.key.code);
-                    toast.success("Key copiada!");
-                  }}>
-                    <Copy className="h-3 w-3 text-cyan-200" />
-                  </Button>
-                </div>
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-[0.28em] text-cyan-100/70">IP Autorizado</p>
-                <p className="mt-1 text-sm text-cyan-50">{detailsQuery.data.key.authorizedIp || "Não definido"}</p>
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-[0.28em] text-cyan-100/70">Validade</p>
-                <p className="mt-1 text-sm text-cyan-50">{formatDate(detailsQuery.data.key.expiresAt)}</p>
-              </div>
-            </div>
-            <div className="border-t border-cyan-300/10 pt-4">
-              <h3 className="mb-3 text-sm font-bold text-cyan-100">Histórico de sincronizações</h3>
-              {detailsQuery.data.logs.length === 0 ? (
-                <p className="text-xs text-cyan-100/50">Nenhuma sincronização registrada.</p>
-              ) : (
-                <div className="space-y-2">
-                  {detailsQuery.data.logs.map(log => (
-                    <div key={log.id} className="text-xs text-cyan-100/70 border-l-2 border-cyan-300/30 pl-3 py-1">
-                      <p><strong>IP anterior:</strong> {log.previousIp || "—"}</p>
-                      <p><strong>IP novo:</strong> {log.newIp}</p>
-                      <p><strong>Data:</strong> {formatDate(log.createdAt)}</p>
-                    </div>
+                <div className="flex flex-wrap gap-2">
+                  {[1, 3, 7, 15, 30].map((days) => (
+                    <Button
+                      key={days}
+                      size="sm"
+                      variant="outline"
+                      className="border-cyan-300/20 bg-cyan-300/5 text-xs text-cyan-100 hover:bg-cyan-300/15 h-8 font-semibold"
+                      onClick={() => setExpirationDays(days)}
+                    >
+                      {days}d
+                    </Button>
                   ))}
                 </div>
+              </section>
+
+              {/* Search Section */}
+              <section className="cyber-card p-6 md:p-8">
+                <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                  <Search className="h-5 w-5 text-cyan-300" />
+                  Buscar Key
+                </h2>
+                <div className="flex gap-2">
+                  <input
+                    className="cyber-input flex-1 text-sm"
+                    value={searchCode}
+                    onChange={(e) => setSearchCode(e.target.value)}
+                    placeholder="Código da key..."
+                  />
+                  <Button className="cyber-button h-10 px-4 font-semibold" onClick={() => handleCheck()}>
+                    <Search className="h-4 w-4" />
+                  </Button>
+                </div>
+              </section>
+
+              {/* Key Details */}
+              {selectedKeyData && (
+                <section className="cyber-card p-6 md:p-8">
+                  <h2 className="text-lg font-bold text-white mb-6">Detalhes da Key</h2>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div className="p-4 rounded-lg bg-cyan-300/5 border border-cyan-300/10">
+                      <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/60 font-semibold">Código</p>
+                      <p className="text-sm font-mono text-cyan-200 mt-2">{selectedKeyData.code}</p>
+                    </div>
+                    <div className="p-4 rounded-lg bg-cyan-300/5 border border-cyan-300/10">
+                      <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/60 font-semibold">Cliente</p>
+                      <p className="text-sm text-cyan-200 mt-2">{selectedKeyData.clientName}</p>
+                    </div>
+                    <div className="p-4 rounded-lg bg-cyan-300/5 border border-cyan-300/10">
+                      <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/60 font-semibold">IP Autorizado</p>
+                      <p className="text-sm text-cyan-200 mt-2">{selectedKeyData.authorizedIp || "Não configurado"}</p>
+                    </div>
+                    <div className="p-4 rounded-lg bg-cyan-300/5 border border-cyan-300/10">
+                      <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/60 font-semibold">Status</p>
+                      <p className="text-sm text-cyan-200 mt-2">{statusLabel(selectedKeyData.status)}</p>
+                    </div>
+                    <div className="p-4 rounded-lg bg-cyan-300/5 border border-cyan-300/10">
+                      <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/60 font-semibold">Criada em</p>
+                      <p className="text-sm text-cyan-200 mt-2">{formatDate(selectedKeyData.createdAt)}</p>
+                    </div>
+                    <div className="p-4 rounded-lg bg-cyan-300/5 border border-cyan-300/10">
+                      <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/60 font-semibold">Validade</p>
+                      <p className="text-sm text-cyan-200 mt-2">{formatDate(selectedKeyData.expiresAt)}</p>
+                    </div>
+                  </div>
+                </section>
               )}
-            </div>
-          </section>
-        )}
 
-        {/* Modal de Confirmação de Exclusão de Key */}
-        {deleteTarget && (
-          <section className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
-            <div className="cyber-card w-full max-w-md p-6">
-              <h2 className="text-lg font-bold text-white mb-3">Confirmar exclusão de key</h2>
-              <p className="text-sm text-cyan-100/70 mb-6">Tem certeza que deseja excluir a key <strong>{deleteTarget.code}</strong> do cliente <strong>{deleteTarget.clientName}</strong>? Esta ação é irreversível.</p>
-              <div className="flex gap-3">
-                <Button className="cyber-button flex-1" onClick={() => {
-                  deleteMutation.mutate({ id: deleteTarget.id, confirmation: true });
-                }} disabled={deleteMutation.isPending}>
-                  {deleteMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 className="mr-2 h-4 w-4" />}
-                  Excluir
-                </Button>
-                <Button variant="outline" className="border-cyan-300/30 bg-black/20 text-cyan-100 hover:bg-cyan-300/10 flex-1" onClick={() => setDeleteTarget(null)}>
-                  Cancelar
-                </Button>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Modal de Criar Revendedor */}
-        {showResellerForm && (
-          <section className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
-            <div className="cyber-card w-full max-w-md p-6">
-              <h2 className="text-lg font-bold text-white mb-4">Criar revendedor</h2>
-              <div className="space-y-4 mb-6">
-                <div>
-                  <label className="cyber-label text-xs">Nome</label>
-                  <input className="cyber-input text-sm" value={resellerName} onChange={event => setResellerName(event.target.value)} placeholder="Ex: Revendedor Premium" />
+              {/* Keys Table */}
+              <section className="cyber-card overflow-hidden">
+                <div className="p-6 md:p-8 border-b border-cyan-300/10">
+                  <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                    <KeyRound className="h-5 w-5 text-cyan-300" />
+                    Todas as Keys
+                  </h2>
                 </div>
-                <div>
-                  <label className="cyber-label text-xs">Senha</label>
-                  <input className="cyber-input text-sm" value={resellerPassword} onChange={event => setResellerPassword(event.target.value)} placeholder="Digite a senha" type="password" />
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <Button className="cyber-button flex-1" onClick={handleCreateReseller} disabled={createResellerMutation.isPending}>
-                  {createResellerMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
-                  Criar
-                </Button>
-                <Button variant="outline" className="border-cyan-300/30 bg-black/20 text-cyan-100 hover:bg-cyan-300/10 flex-1" onClick={() => setShowResellerForm(false)}>
-                  Cancelar
-                </Button>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Modal de Gerenciar Revendedores */}
-        {showResellerList && (
-          <section className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
-            <div className="cyber-card w-full max-w-2xl p-6 max-h-[80vh] overflow-y-auto">
-              <h2 className="text-lg font-bold text-white mb-4">Gerenciar revendedores</h2>
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs md:text-sm">
-                  <thead className="bg-cyan-300/5 text-xs uppercase tracking-[0.2em] text-cyan-200/70">
-                    <tr>
-                      <th className="px-3 py-3">Nome</th>
-                      <th className="px-3 py-3">Status</th>
-                      <th className="px-3 py-3">Criado em</th>
-                      <th className="px-3 py-3">Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-cyan-300/10">
-                    {!resellersQuery.data || resellersQuery.data.length === 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead className="border-b border-cyan-300/10 bg-cyan-300/5">
                       <tr>
-                        <td colSpan={4} className="px-3 py-6 text-center text-cyan-100/50">
-                          Nenhum revendedor cadastrado.
-                        </td>
+                        <th className="px-6 py-4 text-left text-xs uppercase tracking-[0.1em] text-cyan-200 font-semibold">Código</th>
+                        <th className="px-6 py-4 text-left text-xs uppercase tracking-[0.1em] text-cyan-200 font-semibold">Cliente</th>
+                        <th className="px-6 py-4 text-left text-xs uppercase tracking-[0.1em] text-cyan-200 font-semibold">Status</th>
+                        <th className="px-6 py-4 text-left text-xs uppercase tracking-[0.1em] text-cyan-200 font-semibold">Validade</th>
+                        <th className="px-6 py-4 text-left text-xs uppercase tracking-[0.1em] text-cyan-200 font-semibold">Ações</th>
                       </tr>
-                    ) : (
-                      resellersQuery.data.map(reseller => (
-                        <tr key={reseller.id} className="hover:bg-cyan-300/5 transition-colors">
-                          <td className="px-3 py-3 font-mono text-cyan-100">{reseller.name}</td>
-                          <td className="px-3 py-3">
-                            <span className={reseller.status === "active" ? "text-green-300" : "text-red-300"}>{statusLabel(reseller.status)}</span>
+                    </thead>
+                    <tbody>
+                      {keysQuery.data?.map((key) => (
+                        <tr key={key.id} className="border-b border-cyan-300/5 hover:bg-cyan-300/5 transition-colors">
+                          <td className="px-6 py-4 font-mono text-cyan-300">{key.code}</td>
+                          <td className="px-6 py-4 text-cyan-100">{key.clientName}</td>
+                          <td className="px-6 py-4">
+                            <span className={`px-2 py-1 rounded text-xs font-semibold ${key.status === "active" ? "bg-green-500/20 text-green-300" : "bg-red-500/20 text-red-300"}`}>
+                              {statusLabel(key.status)}
+                            </span>
                           </td>
-                          <td className="px-3 py-3 text-cyan-100/70 text-xs">{formatDate(reseller.createdAt)}</td>
-                          <td className="px-3 py-3">
-                            <Button size="sm" variant="outline" className="border-red-300/30 bg-red-300/10 text-red-100 hover:bg-red-300/20 h-8 px-2" onClick={() => setDeleteResellerTarget({ id: reseller.id, name: reseller.name })}>
+                          <td className="px-6 py-4 text-cyan-100/70">{formatDate(key.expiresAt)}</td>
+                          <td className="px-6 py-4">
+                            <div className="flex gap-2">
+                              <Button size="sm" variant="outline" className="border-cyan-300/20 bg-cyan-300/5 text-xs h-8 font-semibold" onClick={() => handleCheck(key.code)}>
+                                <Search className="h-3 w-3" />
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="border-red-300/20 bg-red-300/5 text-xs h-8 font-semibold"
+                                onClick={() => setDeleteConfirm(key.code)}
+                              >
+                                <Trash2 className="h-3 w-3" />
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {/* Create Reseller */}
+              <section className="cyber-card p-6 md:p-8">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                    <Plus className="h-5 w-5 text-cyan-300" />
+                    Criar Revendedor
+                  </h2>
+                  {!showResellerForm && (
+                    <Button className="cyber-button h-9 text-sm font-semibold" onClick={() => setShowResellerForm(true)}>
+                      <Plus className="mr-1 h-4 w-4" />
+                      Novo
+                    </Button>
+                  )}
+                </div>
+
+                {showResellerForm && (
+                  <div className="grid gap-4 md:grid-cols-3">
+                    <input
+                      className="cyber-input text-sm"
+                      value={resellerName}
+                      onChange={(e) => setResellerName(e.target.value)}
+                      placeholder="Nome do revendedor"
+                    />
+                    <input
+                      className="cyber-input text-sm"
+                      value={resellerPassword}
+                      onChange={(e) => setResellerPassword(e.target.value)}
+                      placeholder="Senha"
+                      type="password"
+                    />
+                    <div className="flex gap-2">
+                      <Button className="cyber-button h-10 flex-1 text-sm font-semibold" onClick={handleCreateReseller} disabled={createResellerMutation.isPending}>
+                        {createResellerMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
+                        Criar
+                      </Button>
+                      <Button variant="outline" className="border-cyan-300/20 bg-black/20 h-10 text-sm font-semibold" onClick={() => setShowResellerForm(false)}>
+                        Cancelar
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </section>
+
+              {/* Resellers Table */}
+              <section className="cyber-card overflow-hidden">
+                <div className="p-6 md:p-8 border-b border-cyan-300/10">
+                  <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                    <Users className="h-5 w-5 text-cyan-300" />
+                    Revendedores Cadastrados
+                  </h2>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead className="border-b border-cyan-300/10 bg-cyan-300/5">
+                      <tr>
+                        <th className="px-6 py-4 text-left text-xs uppercase tracking-[0.1em] text-cyan-200 font-semibold">Nome</th>
+                        <th className="px-6 py-4 text-left text-xs uppercase tracking-[0.1em] text-cyan-200 font-semibold">Criado em</th>
+                        <th className="px-6 py-4 text-left text-xs uppercase tracking-[0.1em] text-cyan-200 font-semibold">Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {resellersQuery.data?.map((reseller: any) => (
+                        <tr key={reseller.id} className="border-b border-cyan-300/5 hover:bg-cyan-300/5 transition-colors">
+                          <td className="px-6 py-4 text-cyan-100 font-medium">{reseller.name}</td>
+                          <td className="px-6 py-4 text-cyan-100/70">{formatDate(reseller.createdAt)}</td>
+                          <td className="px-6 py-4">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="border-red-300/20 bg-red-300/5 text-xs h-8 font-semibold"
+                              onClick={() => setDeleteResellerConfirm(reseller.id.toString())}
+                            >
                               <Trash2 className="h-3 w-3" />
                             </Button>
                           </td>
                         </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
-              </div>
-              <div className="mt-4 flex justify-end">
-                <Button variant="outline" className="border-cyan-300/30 bg-black/20 text-cyan-100 hover:bg-cyan-300/10" onClick={() => setShowResellerList(false)}>
-                  Fechar
-                </Button>
-              </div>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
             </div>
-          </section>
-        )}
+          )}
+        </div>
+      </main>
 
-        {/* Modal de Confirmação de Exclusão de Revendedor */}
-        {deleteResellerTarget && (
-          <section className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
-            <div className="cyber-card w-full max-w-md p-6">
-              <h2 className="text-lg font-bold text-white mb-3">Confirmar exclusão de revendedor</h2>
-              <p className="text-sm text-cyan-100/70 mb-6">Tem certeza que deseja deletar o revendedor <strong>{deleteResellerTarget.name}</strong>? Esta ação é irreversível.</p>
-              <div className="flex gap-3">
-                <Button className="cyber-button flex-1" onClick={() => {
-                  deleteResellerMutation.mutate({ id: deleteResellerTarget.id });
-                }} disabled={deleteResellerMutation.isPending}>
-                  {deleteResellerMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 className="mr-2 h-4 w-4" />}
-                  Deletar
-                </Button>
-                <Button variant="outline" className="border-cyan-300/30 bg-black/20 text-cyan-100 hover:bg-cyan-300/10 flex-1" onClick={() => setDeleteResellerTarget(null)}>
-                  Cancelar
-                </Button>
-              </div>
+      {/* Delete Confirmation Modal */}
+      {deleteConfirm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <section className="cyber-card max-w-sm w-full p-6">
+            <h2 className="text-lg font-bold text-white mb-2">Confirmar exclusão</h2>
+            <p className="text-sm text-cyan-100/70 mb-6">Tem certeza que deseja deletar a key {deleteConfirm}? Esta ação não pode ser desfeita.</p>
+            <div className="flex gap-3">
+              <Button className="flex-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 h-9 font-semibold" onClick={() => deleteMutation.mutate({ code: deleteConfirm })}>
+                Deletar
+              </Button>
+              <Button variant="outline" className="flex-1 border-cyan-300/20 bg-black/20 h-9 font-semibold" onClick={() => setDeleteConfirm(null)}>
+                Cancelar
+              </Button>
             </div>
           </section>
-        )}
-      </div>
-    </main>
+        </div>
+      )}
+
+      {/* Delete Reseller Confirmation Modal */}
+      {deleteResellerConfirm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <section className="cyber-card max-w-sm w-full p-6">
+            <h2 className="text-lg font-bold text-white mb-2">Confirmar exclusão</h2>
+            <p className="text-sm text-cyan-100/70 mb-6">Tem certeza que deseja deletar este revendedor? Esta ação não pode ser desfeita.</p>
+            <div className="flex gap-3">
+              <Button
+                className="flex-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 h-9 font-semibold"
+                onClick={() => deleteResellerMutation.mutate({ id: parseInt(deleteResellerConfirm) })}
+              >
+                Deletar
+              </Button>
+              <Button variant="outline" className="flex-1 border-cyan-300/20 bg-black/20 h-9 font-semibold" onClick={() => setDeleteResellerConfirm(null)}>
+                Cancelar
+              </Button>
+            </div>
+          </section>
+        </div>
+      )}
+    </div>
   );
 }
 
-function Metric({ title, value, tone }: { title: string; value: number; tone: "cyan" | "green" | "red" | "purple" }) {
+function MetricCard({ title, value, tone }: { title: string; value: number; tone: "cyan" | "green" | "red" | "purple" }) {
   const colors = {
-    cyan: "border-cyan-300/30 bg-cyan-300/5 text-cyan-50",
-    green: "border-green-300/30 bg-green-300/5 text-green-50",
-    red: "border-red-300/30 bg-red-300/5 text-red-50",
-    purple: "border-purple-300/30 bg-purple-300/5 text-purple-50",
+    cyan: "from-cyan-300/15 to-cyan-300/5 border-cyan-300/30 text-cyan-100",
+    green: "from-green-300/15 to-green-300/5 border-green-300/30 text-green-100",
+    red: "from-red-300/15 to-red-300/5 border-red-300/30 text-red-100",
+    purple: "from-purple-300/15 to-purple-300/5 border-purple-300/30 text-purple-100",
   };
+
   return (
-    <div className={`cyber-card border ${colors[tone]} p-4 md:p-6`}>
-      <p className="text-xs uppercase tracking-[0.28em] text-opacity-70">{title}</p>
-      <p className="mt-2 text-3xl md:text-4xl font-black tracking-[0.12em]">{value}</p>
+    <div className={`cyber-card p-6 border bg-gradient-to-br ${colors[tone]} hover:shadow-[0_0_32px_rgba(34,211,238,0.15)] transition-all duration-300`}>
+      <p className="text-xs uppercase tracking-[0.25em] font-semibold opacity-60 mb-3">{title}</p>
+      <p className="text-4xl font-black tracking-tight">{value}</p>
     </div>
   );
 }

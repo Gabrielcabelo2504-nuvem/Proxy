@@ -139,6 +139,17 @@ export const appRouter = router({
         await deleteApiKeyById(input.id);
         return { success: true } as const;
       }),
+
+    delete: adminProcedure
+      .input(z.object({ code: keyCodeSchema }))
+      .mutation(async ({ input }) => {
+        const key = await getApiKeyByCode(input.code);
+        if (!key) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Key não encontrada." });
+        }
+        await deleteApiKeyById(key.id);
+        return { success: true } as const;
+      }),
   }),
 
   portal: router({

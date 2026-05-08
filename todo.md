@@ -48,3 +48,9 @@
 - [x] Revendedor vê apenas suas próprias keys
 - [x] Revendedor pode buscar, checar e deletar suas keys
 - [x] Revendedor pode ver histórico de sincronizações das suas keys
+
+- [x] Refatorar painel administrativo com menu lateral fixo e design profissional
+- [x] Reorganizar cards de métricas em grid responsivo (4 colunas em desktop)
+- [x] Melhorar espaçamento, tipografia hierárquica e visual refinado
+- [x] Implementar transições suaves e hover effects nos elementos interativos
+- [x] Validar responsividade mobile do novo layout do painel admin
