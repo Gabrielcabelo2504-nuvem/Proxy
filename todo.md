@@ -36,8 +36,15 @@
 - [x] Garantir que o portal do cliente seja totalmente público e sem autenticação
 - [x] Remover qualquer referência ou link para o painel administrativo na página do cliente
 
-- [ ] Reorganizar painel admin com menu de 3 pontinhos (⋯) contendo opções de gerenciamento
-- [ ] Adicionar dashboard com cards de métricas (keys, revendedores, status)
-- [ ] Implementar ações inline na tabela de keys (Checar, Deletar, Editar status)
-- [ ] Implementar ações inline na tabela de revendedores (Deletar, Ver keys)
-- [ ] Melhorar visual com cards cyber/neon bem organizados e profissional
+- [x] Reorganizar painel admin com menu de 3 pontinhos (⋯) contendo opções de gerenciamento
+- [x] Adicionar dashboard com cards de métricas (keys, revendedores, status)
+- [x] Implementar ações inline na tabela de keys (Checar, Deletar, Editar status)
+- [x] Implementar ações inline na tabela de revendedores (Deletar, Ver keys)
+- [x] Melhorar visual com cards cyber/neon bem organizados e profissional
+
+- [x] Criar painel do revendedor com login nome/senha
+- [x] Implementar dashboard do revendedor com métricas
+- [x] Revendedor pode gerar keys com duração predefinida
+- [x] Revendedor vê apenas suas próprias keys
+- [x] Revendedor pode buscar, checar e deletar suas keys
+- [x] Revendedor pode ver histórico de sincronizações das suas keys
