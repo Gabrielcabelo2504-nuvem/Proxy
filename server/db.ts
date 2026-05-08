@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { ApiKey, apiKeys, InsertApiKey, InsertKeyActivityLog, InsertUser, keyActivityLogs, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,73 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+function requireDbInstance(db: Awaited<ReturnType<typeof getDb>>) {
+  if (!db) {
+    throw new Error("Banco de dados indisponível no momento.");
+  }
+  return db;
+}
+
+export async function listApiKeys() {
+  const db = requireDbInstance(await getDb());
+  return db.select().from(apiKeys).orderBy(desc(apiKeys.createdAt));
+}
+
+export async function createApiKey(values: InsertApiKey) {
+  const db = requireDbInstance(await getDb());
+  await db.insert(apiKeys).values(values);
+  const rows = await db.select().from(apiKeys).where(eq(apiKeys.code, values.code)).limit(1);
+  return rows[0];
+}
+
+export async function getApiKeyByCode(code: string) {
+  const db = requireDbInstance(await getDb());
+  const rows = await db.select().from(apiKeys).where(eq(apiKeys.code, code)).limit(1);
+  return rows[0];
+}
+
+export async function getApiKeyById(id: number) {
+  const db = requireDbInstance(await getDb());
+  const rows = await db.select().from(apiKeys).where(eq(apiKeys.id, id)).limit(1);
+  return rows[0];
+}
+
+export async function getLogsForKey(apiKeyId: number) {
+  const db = requireDbInstance(await getDb());
+  return db
+    .select()
+    .from(keyActivityLogs)
+    .where(eq(keyActivityLogs.apiKeyId, apiKeyId))
+    .orderBy(desc(keyActivityLogs.createdAt));
+}
+
+export async function touchKeyAccess(id: number) {
+  const db = requireDbInstance(await getDb());
+  await db.update(apiKeys).set({ lastAccessAt: new Date() }).where(eq(apiKeys.id, id));
+}
+
+export async function deleteApiKeyById(id: number) {
+  const db = requireDbInstance(await getDb());
+  await db.delete(keyActivityLogs).where(eq(keyActivityLogs.apiKeyId, id));
+  await db.delete(apiKeys).where(eq(apiKeys.id, id));
+}
+
+export async function updateKeyIp(apiKey: ApiKey, newIp: string, actorIp: string | null) {
+  const db = requireDbInstance(await getDb());
+  const previousIp = apiKey.authorizedIp ?? null;
+  const log: InsertKeyActivityLog = {
+    apiKeyId: apiKey.id,
+    action: "sync_ip",
+    previousIp,
+    newIp,
+    actorIp,
+  };
+
+  await db.insert(keyActivityLogs).values(log);
+  await db
+    .update(apiKeys)
+    .set({ authorizedIp: newIp, lastAccessAt: new Date() })
+    .where(eq(apiKeys.id, apiKey.id));
+
+  return getApiKeyById(apiKey.id);
+}

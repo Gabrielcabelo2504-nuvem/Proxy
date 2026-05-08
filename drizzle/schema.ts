@@ -22,7 +22,32 @@ export const users = mysqlTable("users", {
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
 });
 
+export const apiKeys = mysqlTable("api_keys", {
+  id: int("id").autoincrement().primaryKey(),
+  code: varchar("code", { length: 64 }).notNull().unique(),
+  clientName: varchar("clientName", { length: 160 }).notNull(),
+  authorizedIp: varchar("authorizedIp", { length: 64 }),
+  status: mysqlEnum("status", ["active", "inactive"]).default("active").notNull(),
+  expiresAt: timestamp("expiresAt"),
+  lastAccessAt: timestamp("lastAccessAt"),
+  createdBy: int("createdBy"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const keyActivityLogs = mysqlTable("key_activity_logs", {
+  id: int("id").autoincrement().primaryKey(),
+  apiKeyId: int("apiKeyId").notNull(),
+  action: varchar("action", { length: 64 }).notNull(),
+  previousIp: varchar("previousIp", { length: 64 }),
+  newIp: varchar("newIp", { length: 64 }),
+  actorIp: varchar("actorIp", { length: 64 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
-
-// TODO: Add your tables here
+export type ApiKey = typeof apiKeys.$inferSelect;
+export type InsertApiKey = typeof apiKeys.$inferInsert;
+export type KeyActivityLog = typeof keyActivityLogs.$inferSelect;
+export type InsertKeyActivityLog = typeof keyActivityLogs.$inferInsert;
