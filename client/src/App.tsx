@@ -13,7 +13,7 @@ import Home from "./pages/Home";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Cliente} />
+      <Route path="/" component={Home} />
       <Route path="/cliente" component={Cliente} />
       <Route path="/admin-login" component={AdminLogin} />
       <Route path="/admin" component={Admin} />
