@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { getLoginUrl } from "@/const";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
+import { useLocation } from "wouter";
+import { useEffect } from "react";
 import {
   AlertTriangle,
   Copy,
@@ -24,6 +26,48 @@ import {
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
+function ProtectedAdminPage({ children }: { children: React.ReactNode }) {
+  const [, setLocation] = useLocation();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const auth = localStorage.getItem('adminAuth');
+    if (!auth) {
+      setLocation('/admin-login');
+      return;
+    }
+
+    try {
+      const authData = JSON.parse(auth);
+      // Check if auth is still valid (optional: add expiration time)
+      setIsAuthenticated(true);
+    } catch {
+      localStorage.removeItem('adminAuth');
+      setLocation('/admin-login');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [setLocation]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full border-2 border-cyan-500 border-t-transparent animate-spin mb-4"></div>
+          <p className="text-slate-400">Verificando autenticação...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
+
+  return <>{children}</>;
+}
+
 function formatDate(value?: Date | string | null) {
   if (!value) return "Sem validade";
   return new Date(value).toLocaleString("pt-BR");
@@ -33,7 +77,7 @@ function statusLabel(status: string) {
   return status === "active" ? "Ativa" : "Inativa";
 }
 
-export default function Admin() {
+function AdminContent() {
   const { user, loading, logout } = useAuth();
 
   if (loading) {
@@ -290,7 +334,10 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
         </nav>
 
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-cyan-300/10 bg-gradient-to-t from-slate-950 to-transparent">
-          <Button className="w-full bg-gradient-to-r from-red-500/30 to-red-500/10 text-red-200 hover:from-red-500/40 hover:to-red-500/20 border border-red-300/20 h-10 text-sm font-semibold transition-all" onClick={onLogout}>
+          <Button className="w-full bg-gradient-to-r from-red-500/30 to-red-500/10 text-red-200 hover:from-red-500/40 hover:to-red-500/20 border border-red-300/20 h-10 text-sm font-semibold transition-all" onClick={() => {
+            localStorage.removeItem('adminAuth');
+            window.location.href = '/admin-login';
+          }}>
             <LogOut className="mr-2 h-4 w-4" />
             Sair
           </Button>
@@ -669,5 +716,14 @@ function MetricCard({ title, value, tone }: { title: string; value: number; tone
       <p className="text-xs uppercase tracking-[0.25em] font-semibold opacity-60 mb-3">{title}</p>
       <p className="text-4xl font-black tracking-tight">{value}</p>
     </div>
+  );
+}
+
+
+export default function Admin() {
+  return (
+    <ProtectedAdminPage>
+      <AdminContent />
+    </ProtectedAdminPage>
   );
 }

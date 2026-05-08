@@ -62,3 +62,8 @@
 - [x] Adicionar campo de validade (expiresAt) à tabela de revendedores
 - [x] Implementar lógica de validade de 30 dias ao criar revendedor
 - [x] Validar que todos os revendedores adicionados terão validade de 30 dias
+
+- [x] Criar página de login com autenticação (AdminLogin.tsx)
+- [x] Proteger rotas do painel admin com ProtectedAdminPage
+- [x] Adicionar botão de logout funcional
+- [x] Testar autenticação com credenciais (Marcelo Ruiz / 7238)

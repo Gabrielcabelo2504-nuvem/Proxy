@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Admin from "@/pages/Admin";
+import AdminLogin from "@/pages/AdminLogin";
 import Cliente from "@/pages/Cliente";
 import Reseller from "@/pages/Reseller";
 import NotFound from "@/pages/NotFound";
@@ -14,6 +15,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Cliente} />
       <Route path="/cliente" component={Cliente} />
+      <Route path="/admin-login" component={AdminLogin} />
       <Route path="/admin" component={Admin} />
       <Route path="/reseller" component={Reseller} />
       <Route path="/404" component={NotFound} />
